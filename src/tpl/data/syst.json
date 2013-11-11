@@ -1,0 +1,7 @@
+﻿{
+  "logonUrl": "account/logon",
+  "logoffUrl": "account/logoff",
+  "tplUrl": "/tpl",
+  "paramListUrl": "/params",
+  "tplExt": ".html"
+}
