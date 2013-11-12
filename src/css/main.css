@@ -14,27 +14,6 @@ body {
     z-index: -1;
 }
 
-.wfm-nav {
-    background-color: #333;
-    position: fixed;
-    right: 0;
-    left: 0;
-    padding: 0 10px;
-    z-index: 1030;
-    min-height: 32px;
-    height: 32px;
-}
-
-    .wfm-nav div {
-        padding: 6px;
-    }
-
-        .wfm-nav div a {
-            text-decoration: none;
-            color: #ccc;
-            padding: 6px;
-        }
-
 /* Set the fixed height of the footer here */
 footer {
     height: 50px;
@@ -277,31 +256,6 @@ footer {
 .workspace-container {
 }
 
-.wfm-workspace-sidebar {
-    background-color: #333;
-}
-
-/*svg.wfm-icon {
-    width: 28px;
-    height: 28px;
-    cursor: pointer;
-    stroke: #86ee10;
-    fill: #333;
-}*/
-
-/*svg.wfm-home-icon {
-    width: 28px;
-    height: 28px;
-    cursor: pointer;
-    stroke: #86ee10;
-    fill: #fff;
-}
-
-    svg.wfm-home-icon:hover {
-        fill: #86ee10;
-        stroke: #333;
-    }*/
-
 .wfm-workspace-well-tab {
     background-color: #222;
 }
@@ -347,21 +301,6 @@ footer {
         color: #c0c0c0;
     }
 
-@media screen and (min-width: 992px) {
-    .wfm-workspace-sidebar {
-        position: fixed;
-        top: 32px;
-        bottom: 40px;
-        z-index: 98;
-    }
-
-    .wfm-workspace-well-tab {
-        position: fixed;
-        bottom: 0;
-        z-index: 1031;
-    }
-}
-
 /*height of top block (margin-top) and height of footer block (padding-bottom)*/
 .wfm-content-wrap {
     min-height: 100%;
@@ -371,7 +310,7 @@ footer {
 
     .wfm-content-wrap > div {
         /*margin-top: 50px;*/
-        padding-top: 32px;
+        padding-top: 50px;
         padding-bottom: 40px;
     }
 

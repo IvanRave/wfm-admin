@@ -19,6 +19,7 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         trgt: trgt,
         src: 'src',
+        bowerFolder: 'bower_components',
         // Banner for scripts comments: author, licence etc.
         banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
           '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
@@ -66,6 +67,38 @@ module.exports = function (grunt) {
                     dest: '<%= trgt %>/',
                     // Copy all files besides templates and app scripts (which assembled separately)
                     src: ['**/*', '!tpl/**/*', '!js/app/**/*', '!js/main.js']
+                }]
+            },
+            bower_js: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    flatten: true,
+                    cwd: '<%= bowerFolder %>/',
+                    dest: '<%= trgt %>/js/',
+                    src: ['jquery/jquery.js', 'moment/moment.js', 'angular/angular.js', 
+                        'angular-route/angular-route.js', 'bootstrap/dist/js/bootstrap.js',
+                        'requirejs/require.js', 'knockout/knockout.js']
+                }]
+            },
+            bower_css: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    flatten: true,
+                    cwd: '<%= bowerFolder %>/',
+                    dest: '<%= trgt %>/css/',
+                    src: ['bootstrap/dist/css/bootstrap.css', 'bootstrap/dist/css/bootstrap-theme.css']
+                }]
+            },
+            bower_fonts: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    flatten: true,
+                    cwd: '<%= bowerFolder %>/',
+                    dest: '<%= trgt %>/fonts/',
+                    src: ['bootstrap/dist/fonts/*']
                 }]
             }
         },
@@ -167,6 +200,9 @@ module.exports = function (grunt) {
       'jshint:app',
       'clean:main',
       'copy:main',
+      'copy:bower_js',
+      'copy:bower_css',
+      'copy:bower_fonts',
       'assemble:js',
       'assemble:html',
       'assemble:readme'

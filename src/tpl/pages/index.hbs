@@ -34,8 +34,8 @@
                 </ul>
                 <ul class="nav navbar-nav pull-right">
                     <li>
-                        <a ng-hide="isLogged" href="#/{{syst.logonUrl}}">{{capitalizeFirst lang.signIn}}</a>
-                        <a ng-show="isLogged" href="#/{{syst.logoffUrl}}">{{capitalizeFirst lang.logOut}}</a>
+                        <a ng-hide="isLogged" href="#{{syst.logonUrl}}">{{capitalizeFirst lang.signIn}}</a>
+                        <a ng-show="isLogged" href="#{{syst.logoffUrl}}">{{capitalizeFirst lang.logOut}}</a>
                     </li>
                 </ul>
             </div>

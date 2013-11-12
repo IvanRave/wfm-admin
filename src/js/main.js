@@ -1,15 +1,15 @@
 ﻿require(['require-config'], function () {
     'use strict';
 
-    require(['jquery', 'angular', 'angular-route', 'app/controllers', 'jquery.bootstrap'], function ($, angular) {
+    require(['jquery', 'angular', 'angular-route', 'app/controllers/auth', 'app/controllers/cabinet', 'jquery.bootstrap'], function ($, angular) {
 
         var PRJ_MODULE_NAME = 'ang-cabinet-project';
 
-        angular.module(PRJ_MODULE_NAME, ['ngRoute', 'ang-cabinet-controllers'])
+        angular.module(PRJ_MODULE_NAME, ['ngRoute', 'ang-auth-controllers', 'ang-cabinet-controllers'])
         .config(['$routeProvider', '$httpProvider', '$interpolateProvider', function (rpr, angHttpProvider, angInterpolateProvider) {
             rpr
-                //.when('/{{syst.logonUrl}}', { controller: 'AccountLogonCtrl', templateUrl: tplFolder + '{{syst.logonUrl}}.html' })
-                //.when('/{{syst.logoffUrl}}', { controller: 'AccountLogoffCtrl', templateUrl: tplFolder + '{{syst.logoffUrl}}.html' })
+                .when('{{syst.logonUrl}}', { controller: 'AccountLogonCtrl', templateUrl: '.{{syst.tplUrl}}{{syst.logonUrl}}{{syst.tplExt}}' })
+                .when('{{syst.logoffUrl}}', { controller: 'AccountLogoffCtrl', templateUrl: '.{{syst.tplUrl}}{{syst.logoffUrl}}{{syst.tplExt}}' })
                 .when('{{syst.paramListUrl}}', { controller: 'ParamListCtrl', templateUrl: '.{{syst.tplUrl}}{{syst.paramListUrl}}{{syst.tplExt}}' })
                 .otherwise({ redirectTo: '/' });
 
