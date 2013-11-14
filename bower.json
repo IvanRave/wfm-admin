@@ -1,6 +1,6 @@
 {
   "name": "wfm-admin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/IvanRave/wfm-admin",
   "authors": [
     "IvanRave"
@@ -21,6 +21,7 @@
     "angular": "~1.2.0",
     "angular-route": "~1.2.0",
     "requirejs": "~2.1.9",
-    "knockout": "https://github.com/bowerjs/knockout.git#~3.0.0"
+    "knockout": "https://github.com/bowerjs/knockout.git#~3.0.0",
+    "wfm-dict": "https://github.com/IvanRave/wfm-dict.git"
   }
 }
