@@ -155,14 +155,14 @@ module.exports = function (grunt) {
           options: {
             files: ['package.json', 'bower.json'],
             updateConfigs: ['pkg'],
-            commit: true,
-            commitMessage: 'Release v%VERSION%',
-            commitFiles: ['-a'],
-            createTag: true,
-            tagName: 'v%VERSION%',
-            tagMessage: 'Version %VERSION%',
-            push: true,
-            pushTo: 'origin'
+            commit: false,
+            //commitMessage: 'Release v%VERSION%',
+            //commitFiles: ['-a'],
+            //createTag: true,
+            //tagName: 'v%VERSION%',
+            //tagMessage: 'Version %VERSION%',
+            push: false,
+            //pushTo: 'origin'
           }
         },
         // For development: run tasks when change files

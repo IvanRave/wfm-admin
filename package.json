@@ -1,6 +1,6 @@
 {
   "name": "wfm-admin",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Well file manager admin",
   "author": {
     "name": "IvanRave"
@@ -11,10 +11,10 @@
     "url": "https://github.com/IvanRave/wfm-admin.git"
   },
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-jshint": "~0.7.1",
+    "grunt": "~0.4.2",
+    "grunt-contrib-jshint": "~0.7.2",
     "grunt-contrib-watch": "~0.5.3",
-    "assemble": "~0.4.22",
+    "assemble": "~0.4.27",
     "bower": "~1.2.7",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-copy": "~0.4.1",
