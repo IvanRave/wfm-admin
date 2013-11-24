@@ -6,7 +6,8 @@
             wfmParameter: angResource('{{conf.requrl}}/wfm-parameters/:wfmParameterId', {}, { put: { method: 'PUT', isArray: false } }),
             wfmParamSquad: angResource('{{conf.requrl}}/wfm-param-squads'),
             logoff: angResource('{{conf.requrl}}/account/logoff'),
-            logon: angResource('{{conf.requrl}}/account/logon')
+            logon: angResource('{{conf.requrl}}/account/logon'),
+            jobType: angResource('{{conf.requrl}}/job-types/:jobTypeId', {}, { put: { method: 'PUT', isArray: false } })
         };
     }]);
 });
