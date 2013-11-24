@@ -46,7 +46,7 @@ define(['jquery',
                 delete wfmParameterToPut.wfmParameterClone;
 
                 // save
-                appDatacontext.putWfmParameter({ id: wfmParameterToPut.Id }, wfmParameterToPut);
+                appDatacontext.putWfmParameter({ wfmParameterId: wfmParameterToPut.Id }, wfmParameterToPut);
 
                 wfmParameterToPut.isEditable = false;
             };
@@ -84,7 +84,7 @@ define(['jquery',
 
             scp.deleteWfmParameter = function (wfmParameterToDelete) {
                 if (confirm('{{capitalizeFirst lang.confirmToDelete}} "' + wfmParameterToDelete.Id + '"?')) {
-                    wfmApi.wfmParameter.delete({ id: wfmParameterToDelete.Id }, function () {
+                    wfmApi.wfmParameter.delete({wfmParameterId: wfmParameterToDelete.Id}, function () {
                         var idx = scp.wfmParameterList.indexOf(wfmParameterToDelete);
                         console.log(idx);
                         scp.wfmParameterList.splice(idx, 1);
