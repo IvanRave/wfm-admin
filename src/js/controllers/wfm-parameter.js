@@ -10,7 +10,7 @@ define(['jquery', 'angular', 'angular-route', 'api-factory'], function ($, angul
         scp.isLoadedList = false;
 
         scp.wfmParameterList = [];
-
+        scp.wfmParamSquadIdList = [];
         scp.wfmParamSquadList = wfmApi.wfmParamSquad.query({ is_inclusive: true }, function (r) {
             var readyArr = [];
             // Extract wfm parameters from every squad
@@ -23,7 +23,15 @@ define(['jquery', 'angular', 'angular-route', 'api-factory'], function ($, angul
 
             scp.wfmParameterList = readyArr;
             scp.isLoadedList = true;
-        }, function (e) { console.log('e', e); });
+
+            scp.wfmParamSquadIdList = $.map(scp.wfmParamSquadList, function (wfmParamSquad) {
+                return wfmParamSquad.Id;
+            });
+
+            console.log(scp.wfmParamSquadIdList);
+        });
+
+         
 
         scp.turnEdit = function (wfmParameterToEdit, isEditable) {
             if (isEditable === true) {
@@ -72,12 +80,10 @@ define(['jquery', 'angular', 'angular-route', 'api-factory'], function ($, angul
             }
 
             scp.wfmParameterNew.IsSystem = false;
-            // TODO: set default color
-            scp.wfmParameterNew.DefaultColor = '';
+            
+            scp.wfmParameterNew.DefaultColor = scp.wfmParameterNew.DefaultColor || '';
             scp.wfmParameterNew.Uom = scp.wfmParameterNew.Uom || '';
-            scp.wfmParameterNew.IsCumulative = scp.wfmParameterNew.IsCumulative === true;
-            // TODO: add logic for param squad
-            scp.wfmParameterNew.WfmParamSquadId = 'Pressure';
+            scp.wfmParameterNew.IsCumulative = (scp.wfmParameterNew.IsCumulative === true);
             
             wfmApi.wfmParameter.save(scp.wfmParameterNew, function (data) {
                 scp.wfmParameterList.push(data);
