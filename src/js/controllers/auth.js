@@ -1,17 +1,16 @@
-﻿// !Copy from wfm-client
-// Controllers (directives)
+﻿// Controllers (directives)
 // requirejs: app/controllers/auth
 // angular: ang-auth-controllers
 
 define(['jquery',
     'angular',
-    'datacontexts/auth', // Load auth methods to datacontext
-    'angular-route'],
-    function ($, angular, appDatacontext) {
+    'angular-route',
+    'api-factory'],
+    function ($, angular) {
         'use strict';
 
-        angular.module('ang-auth-controllers', ['ngRoute'])
-        .controller('AccountLogonCtrl', ['$scope', '$rootScope', '$location', '$routeParams', function (scp, angRootScope, angLocation, angRouteParams) {
+        angular.module('ang-auth-controllers', ['ngRoute', 'api-factory'])
+        .controller('AccountLogonCtrl', ['$scope', '$rootScope', '$location', '$routeParams', 'WfmApi', function (scp, angRootScope, angLocation, angRouteParams, WfmApi) {
 
             // TODO: chane to normal realization
             angRootScope.isLogged = false;
@@ -35,23 +34,18 @@ define(['jquery',
                 }
             };
 
-            function afterLogon() {
-                ////angWindow.alert('success logon');
-                // Navigate to company list from /account/logon/index.html
-
-                scp.$apply(function () {
-                    angRootScope.isLogged = true;
-                    angLocation.path('{{syst.companyListUrl}}');
-                });
-            }
-
             scp.tryAuth = function () {
                 scp.isProcessBtnEnabled = false;
-                appDatacontext.accountLogon({}, scp.usver).done(afterLogon).fail(function (jqXHR) {
-                    if (jqXHR.status === 422) {
-                        var resJson = jqXHR.responseJSON;
+
+                WfmApi.logon.save({}, scp.usver, function () {
+                    angRootScope.isLogged = true;
+                    angLocation.path('{{syst.companyListUrl}}');
+                }, function (err) {
+                    console.log(err);
+                    if (err.status === 422) {
+                        var resJson = err.data;
                         var tmpProcessError = '*';
-                        require(['app/lang-helper'], function (langHelper) {
+                        require(['lang-helper'], function (langHelper) {
                             tmpProcessError += (langHelper.translate(resJson.errId) || '{{lang.unknownError}}');
                             // Because using jQuery ajax is out of the world of angular, you need to wrap your $scope assignment inside of
                             scp.$apply(function () {
@@ -59,27 +53,13 @@ define(['jquery',
                             });
                         });
                     }
-                }).always(function () {
-                    // When error or smth activate login button
-                    scp.$apply(function () {
-                        scp.isProcessBtnEnabled = true;
-                    });
+
+                    scp.isProcessBtnEnabled = true;
                 });
             };
-
-            scp.isTestLoginBtnEnabled = true;
-
-            scp.testAuth = function () {
-                scp.isTestLoginBtnEnabled = false;
-                appDatacontext.accountLogon({}, {
-                    'email': 'wfm@example.com',
-                    'password': '123321'
-                }).done(afterLogon);
-            };
         }])
-        .controller('AccountLogoffCtrl', ['$window', function (angWindow) {
-            // Remove AUTH httponly cookie
-            appDatacontext.accountLogoff().done(function () {
+        .controller('AccountLogoffCtrl', ['$window', 'WfmApi', function (angWindow, WfmApi) {
+            WfmApi.logoff.get({}, function () {
                 // After logoff navigate to the main page
                 angWindow.location.href = '#{{syst.logonUrl}}';
             });

@@ -10,6 +10,7 @@ layout: false
                 <th>Name</th>
                 <th>Unit</th>
                 <th>IsCumulative</th>
+                <th>Group</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -29,6 +30,9 @@ layout: false
                     <input type="checkbox" ng-model="wfmParameter.IsCumulative" ng-show="wfmParameter.isEditable" />
                 </td>
                 <td>
+					<span ng-hide="wfmParameter.isEditable" ng-bind="wfmParameter.WfmParamSquadId"></span>
+				</td>
+                <td>
                     <div ng-hide="wfmParameter.isEditable">
                         <button type="button" class="btn btn-sm btn-default" ng-click="turnEdit(wfmParameter, true)">{{capitalizeFirst lang.toEdit}}</button>
                         <button type="button" ng-hide="wfmParameter.IsSystem" class="btn btn-sm btn-default" ng-click="deleteWfmParameter(wfmParameter)">{{capitalizeFirst lang.toDelete}}</button>
@@ -46,6 +50,7 @@ layout: false
                 <td><input ng-model="wfmParameterNew.Name" required type="text" /></td>
                 <td><input ng-model="wfmParameterNew.Uom" type="text" /></td>
                 <td><input ng-model="wfmParameterNew.IsCumulative" type="checkbox" /></td>
+                <td></td>
                 <td><button type="button" class="btn btn-primary btn-sm" ng-click="postWfmParameter()" ng-disabled="wfmParameterForm.$invalid">Add parameter</button></td>
             </tr>
         </tfoot>

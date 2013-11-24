@@ -4,5 +4,6 @@
   "wfmParametersUrl": "/wfm-parameters",
   "jobTypesUrl": "/job-types",
   "tplUrl": "/tpl",
-  "tplExt": ".html"
+  "tplExt": ".html",
+  "hashPref": "#!"
 }
