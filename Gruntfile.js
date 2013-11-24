@@ -11,7 +11,7 @@ module.exports = function (grunt) {
 
     var isProd = grunt.option('prod') ? true : false;
         
-    var requrl = grunt.option('requrl') || 'http://wfm-client.azurewebsites.net';
+    var requrl = grunt.option('requrl') || 'http://wfm-client.azurewebsites.net/api';
     
     var trgt = isProd ? 'dst' : 'dev';
     
@@ -52,7 +52,7 @@ module.exports = function (grunt) {
                     expand: true,
                     dot: true,
                     cwd: '<%= src %>/js/',
-                    src: ['app/**/*.js', 'main.js']
+                    src: ['**/*.js']
                 }]
             }
         },
@@ -66,8 +66,8 @@ module.exports = function (grunt) {
                     dot: true,
                     cwd: '<%= src %>/',
                     dest: '<%= trgt %>/',
-                    // Copy all files besides templates and app scripts (which assembled separately)
-                    src: ['**/*', '!tpl/**/*', '!js/app/**/*', '!js/main.js']
+                    // Copy all files besides templates and js scripts (which assembled separately)
+                    src: ['**/*', '!tpl/**/*', '!js/**/*']
                 }]
             },
             bower_js: {
@@ -77,9 +77,8 @@ module.exports = function (grunt) {
                     flatten: true,
                     cwd: '<%= bowerFolder %>/',
                     dest: '<%= trgt %>/js/',
-                    src: ['jquery/jquery.js', 'moment/moment.js', 'angular/angular.js', 
-                        'angular-route/angular-route.js', 'bootstrap/dist/js/bootstrap.js',
-                        'requirejs/require.js', 'knockout/knockout.js']
+                    src: ['jquery/jquery.js', 'bootstrap/dist/js/bootstrap.js', 'requirejs/require.js',
+                        'angular/angular.js', 'angular-resource/angular-resource.js', 'angular-route/angular-route.js' ]
                 }]
             },
             bower_css: {
@@ -146,7 +145,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= src %>/js/',
-                    src: ['app/**/*.js', 'main.js'],
+                    src: ['**/*.js'],
                     dest: '<%= trgt %>/js/'
                 }]
             }
@@ -175,7 +174,7 @@ module.exports = function (grunt) {
                 options: {
                     spawn: false
                 },
-                files: ['<%= src %>/js/app/**/*.js', '<%= src %>/js/main.js'],
+                files: ['<%= src %>/js/**/*.js'],
                 tasks: ['jshint:app']
             },
             copy_main: {
@@ -183,7 +182,7 @@ module.exports = function (grunt) {
                     cwd: '<%= src %>/',
                     spawn: false
                 },
-                files: ['**/*', '!tpl/**/*', '!js/app/**/*', '!js/main.js'],
+                files: ['**/*', '!tpl/**/*', '!js/**/*'],
                 tasks: ['copy:main']
             },
             // Update all template pages when change template data
@@ -203,7 +202,7 @@ module.exports = function (grunt) {
                 options: {
                     spawn: false
                 },
-                files: ['<%= src %>/js/app/**/*.js', '<%= src %>/js/main.js'],
+                files: ['<%= src %>/js/**/*.js'],
                 tasks: ['assemble:js']
             }
         }

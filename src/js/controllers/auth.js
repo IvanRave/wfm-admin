@@ -5,8 +5,7 @@
 
 define(['jquery',
     'angular',
-    'app/datacontext',
-    'app/datacontexts/auth', // Load auth methods to datacontext
+    'datacontexts/auth', // Load auth methods to datacontext
     'angular-route'],
     function ($, angular, appDatacontext) {
         'use strict';

@@ -1,16 +1,19 @@
 ﻿require(['require-config'], function () {
     'use strict';
 
-    require(['jquery', 'angular', 'angular-route', 'app/controllers/auth', 'app/controllers/cabinet', 'jquery.bootstrap'], function ($, angular) {
+    require(['jquery', 'angular', 'angular-route', 'jquery.bootstrap',
+        'controllers/auth', 'controllers/wfm-parameter', 'controllers/job-type'
+    ], function ($, angular) {
 
         var PRJ_MODULE_NAME = 'ang-cabinet-project';
 
-        angular.module(PRJ_MODULE_NAME, ['ngRoute', 'ang-auth-controllers', 'ang-cabinet-controllers'])
+        angular.module(PRJ_MODULE_NAME, ['ngRoute', 'ang-auth-controllers', 'ang-wfm-parameter-controllers', 'ang-job-type-controllers'])
         .config(['$routeProvider', '$httpProvider', '$interpolateProvider', function (rpr, angHttpProvider, angInterpolateProvider) {
             rpr
                 .when('{{syst.logonUrl}}', { controller: 'AccountLogonCtrl', templateUrl: '.{{syst.tplUrl}}{{syst.logonUrl}}{{syst.tplExt}}' })
                 .when('{{syst.logoffUrl}}', { controller: 'AccountLogoffCtrl', templateUrl: '.{{syst.tplUrl}}{{syst.logoffUrl}}{{syst.tplExt}}' })
-                .when('{{syst.paramListUrl}}', { controller: 'ParamListCtrl', templateUrl: '.{{syst.tplUrl}}{{syst.paramListUrl}}{{syst.tplExt}}' })
+                .when('{{syst.wfmParametersUrl}}', { controller: 'WfmParametersCtrl', templateUrl: '.{{syst.tplUrl}}{{syst.wfmParametersUrl}}{{syst.tplExt}}' })
+                .when('{{syst.jobTypesUrl}}', { controller: 'JobTypeCtrl', templateUrl: '.{{syst.tplUrl}}{{syst.jobTypesUrl}}{{syst.tplExt}}' })
                 .otherwise({ redirectTo: '/' });
 
             // Turn in CORS cookie support

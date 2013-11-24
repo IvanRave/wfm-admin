@@ -4,22 +4,18 @@
 
 define(['jquery',
     'angular',
-    'app/datacontext',
-    'angular-route'],
+    'datacontexts/wfm-parameter',
+    'angular-route',
+    'api-factory'],
     function ($, angular, appDatacontext) {
         'use strict';
 
-        angular.module('ang-cabinet-controllers', ['ngRoute'])
-        .controller('ParamListCtrl', ['$scope', function (scp) {
+        angular.module('ang-wfm-parameter-controllers', ['ngRoute', 'api-factory'])
+        .controller('WfmParametersCtrl', ['$scope', 'WfmApi' , function (scp, wfmApi) {
             scp.isLoadedList = false;
 
-            scp.wfmParameterList = [];
-
-            appDatacontext.getWfmParameterList().done(function (res) {
-                scp.$apply(function () {
-                    scp.wfmParameterList = res;
-                    scp.isLoadedList = true;
-                });
+            scp.wfmParameterList = wfmApi.wfmParameter.query({}, function () {
+                scp.isLoadedList = true;
             });
 
             scp.turnEdit = function (wfmParameterToEdit, isEditable) {
@@ -77,21 +73,22 @@ define(['jquery',
                 scp.wfmParameterNew.DefaultColor = '';
                 scp.wfmParameterNew.Uom = scp.wfmParameterNew.Uom || '';
                 scp.wfmParameterNew.IsCumulative = scp.wfmParameterNew.IsCumulative === true;
-                // TODO: change to datacontext
-                ////wfmParameterFactory.post(scp.wfmParameterNew, function (data) {
-                ////    scp.wfmParameterList.push(data);
-                ////    scp.wfmParameterNew = {};
-                ////});
+                // TODO: add logic for param squad
+                scp.wfmParameterNew.WfmParamSquadId = 'Pressure';
+
+                wfmApi.wfmParameter.save(scp.wfmParameterNew, function (data) {
+                    scp.wfmParameterList.push(data);
+                    scp.wfmParameterNew = {};
+                });
             };
 
             scp.deleteWfmParameter = function (wfmParameterToDelete) {
-                if (confirm('Are you sure to delete ' + wfmParameterToDelete.Id + ' parameter?')) {
-                    // TODO: change to datacontext
-                    ////wfmParameterFactory.delete({ id: wfmParameterToDelete.Id }, function () {
-                    ////    var idx = scp.wfmParameterList.indexOf(wfmParameterToDelete);
-                    ////    console.log(idx);
-                    ////    scp.wfmParameterList.splice(idx, 1);
-                    ////});
+                if (confirm('{{capitalizeFirst lang.confirmToDelete}} "' + wfmParameterToDelete.Id + '"?')) {
+                    wfmApi.wfmParameter.delete({ id: wfmParameterToDelete.Id }, function () {
+                        var idx = scp.wfmParameterList.indexOf(wfmParameterToDelete);
+                        console.log(idx);
+                        scp.wfmParameterList.splice(idx, 1);
+                    });
                 }
             };
         }]);

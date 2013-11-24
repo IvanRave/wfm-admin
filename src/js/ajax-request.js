@@ -32,37 +32,16 @@ define(['jquery'], function ($) {
         options.contentType = 'application/json; charset=utf-8';
 
         if (data) {
-            // all knockout models need contain toPlainJson function, 
-            // which converts knockout object to plain object (observables to plain objects etc.)
-            if ($.isFunction(data.toPlainJson)) {
-                ////if (true) {
-                ////    try {
-                ////        options.data = $.param(data.toPlainJson());
-                ////    }
-                ////    catch (err) {
-                ////        console.log(err);
-                ////    }
-                ////}
-                ////else {
-                options.data = JSON.stringify(data.toPlainJson());
-                ////}
-            }
-            else if ($.isArray(data)) {
+            if ($.isArray(data)) {
                 // each array element convert to plain json (it is not an appropriate way: would be better to convert each element to plain json before sending to ajaxRequest)
-                // for other libraries (not knockout models - for plain JSON objects)
                 options.data = JSON.stringify(data);
             }
             else {
                 console.log('not ko object and not array');
                 console.log(data);
                 console.log(JSON.stringify(data));
-                // for other libraries (not knockout models - for plain JSON objects)
                 options.data = JSON.stringify(data);
             }
-
-            // remove knockout dependency from this module
-            ////data: JSON.stringify(ko.toJS(data)) 
-            ////ko.toJSON(data)
         }
 
         toggleLoadingState(true);

@@ -1,7 +1,8 @@
 ﻿{
   "logonUrl": "/account/logon",
   "logoffUrl": "/account/logoff",
+  "wfmParametersUrl": "/wfm-parameters",
+  "jobTypesUrl": "/job-types",
   "tplUrl": "/tpl",
-  "paramListUrl": "/params",
   "tplExt": ".html"
 }
