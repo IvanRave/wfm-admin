@@ -12,9 +12,6 @@ define(['jquery',
         angular.module('ang-auth-controllers', ['ngRoute', 'api-factory'])
         .controller('AccountLogonCtrl', ['$scope', '$rootScope', '$location', '$routeParams', 'WfmApi', function (scp, angRootScope, angLocation, angRouteParams, WfmApi) {
 
-            // TODO: chane to normal realization
-            angRootScope.isLogged = false;
-
             scp.usver = {
                 email: angRouteParams.email
             };
@@ -37,7 +34,7 @@ define(['jquery',
             scp.tryAuth = function () {
                 scp.isProcessBtnEnabled = false;
 
-                WfmApi.logon.save({}, scp.usver, function () {
+                WfmApi.account.logon.save({}, scp.usver, function () {
                     angRootScope.isLogged = true;
                     angLocation.path('{{syst.companyListUrl}}');
                 }, function (err) {
@@ -58,10 +55,10 @@ define(['jquery',
                 });
             };
         }])
-        .controller('AccountLogoffCtrl', ['$window', 'WfmApi', function (angWindow, WfmApi) {
-            WfmApi.logoff.get({}, function () {
-                // After logoff navigate to the main page
-                angWindow.location.href = '#{{syst.logonUrl}}';
+        .controller('AccountLogoffCtrl', ['$rootScope', '$location', 'WfmApi', function (angRootScope, angLocation, WfmApi) {
+            WfmApi.account.logoff.get({}, function () {
+                angRootScope.isLogged = false;
+                angLocation.path('{{syst.logonUrl}}');
             });
         }]);
     });

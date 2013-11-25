@@ -25,7 +25,7 @@
                 <a class="navbar-brand" href="{{syst.hashPref}}/">{{lang.wfm}} {{lang.admin}}</a>
             </div>
             <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav" ng-show="isLogged">
                     <li ng-class="getClass('{{syst.wfmParametersUrl}}')"><a href="{{syst.hashPref}}{{syst.wfmParametersUrl}}">Units</a></li>
                     <li ng-class="getClass('{{syst.jobTypesUrl}}')"><a href="{{syst.hashPref}}{{syst.jobTypesUrl}}">Job types</a></li>
                     <!--<li ng-class="getClass('/companies')"><a href="{{syst.hashPref}}/companies">Companies</a></li>

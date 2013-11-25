@@ -6,12 +6,12 @@ define(['jquery', 'angular', 'angular-route', 'api-factory'], function ($, angul
     'use strict';
 
     angular.module('ang-wfm-parameter-controllers', ['ngRoute', 'api-factory'])
-    .controller('WfmParametersCtrl', ['$scope', 'WfmApi', function (scp, wfmApi) {
+    .controller('WfmParametersCtrl', ['$scope', 'WfmApi', function (scp, WfmApi) {
         scp.isLoadedList = false;
 
         scp.wfmParameterList = [];
         scp.wfmParamSquadIdList = [];
-        scp.wfmParamSquadList = wfmApi.wfmParamSquad.query({ is_inclusive: true }, function (r) {
+        scp.wfmParamSquadList = WfmApi.wfmParamSquad.query({ is_inclusive: true }, function (r) {
             var readyArr = [];
             // Extract wfm parameters from every squad
             for (var i = 0; i < r.length; i += 1) {
@@ -29,21 +29,22 @@ define(['jquery', 'angular', 'angular-route', 'api-factory'], function ($, angul
             });
 
             console.log(scp.wfmParamSquadIdList);
-        });
+        });         
 
-         
-
-        scp.turnEdit = function (wfmParameterToEdit, isEditable) {
-            if (isEditable === true) {
-                wfmParameterToEdit.isEditable = true;
-                wfmParameterToEdit.wfmParameterClone = angular.copy(wfmParameterToEdit);
+        ///<param name="isEditable">True (press edit) or false (press cancel)</param>
+        scp.toggleEdit = function (objToEdit, isEditable) {
+            if (isEditable) {
+                // Press "Edit" button
+                objToEdit.isEditable = true;
+                // Make a clone (initial state) to "Cancel" psblty
+                objToEdit.objClone = angular.copy(objToEdit);
             }
             else {
-                // when press Cancel
-                // take a @beforeStartEditCopy
-                var beforeStartEditCopy = angular.copy(wfmParameterToEdit.wfmParameterClone);
-                // remove unused (changed) object from array
-                scp.wfmParameterList.splice(scp.wfmParameterList.indexOf(wfmParameterToEdit), 1);
+                // Press "Cancel" button
+                // Take a @beforeStartEditCopy - take a clone
+                var beforeStartEditCopy = angular.copy(objToEdit.objClone);
+                // Remove unused (changed) object from array
+                scp.wfmParameterList.splice(scp.wfmParameterList.indexOf(objToEdit), 1);
 
                 scp.wfmParameterList.push(beforeStartEditCopy);
                 beforeStartEditCopy.isEditable = false;
@@ -51,12 +52,13 @@ define(['jquery', 'angular', 'angular-route', 'api-factory'], function ($, angul
         };
 
         scp.putWfmParameter = function (wfmParameterToPut) {
-            // todo: check if name exists in entire array
+            // Todo: check if name exists in entire array
 
             // delete clone object
-            delete wfmParameterToPut.wfmParameterClone;
+            delete wfmParameterToPut.objClone;
+            delete wfmParameterToPut.isEditable;
 
-            wfmApi.wfmParameter.put({ wfmParameterId: wfmParameterToPut.Id }, wfmParameterToPut);
+            WfmApi.wfmParameter.put({ wfmParameterId: wfmParameterToPut.Id }, wfmParameterToPut);
 
             wfmParameterToPut.isEditable = false;
         };
@@ -85,7 +87,7 @@ define(['jquery', 'angular', 'angular-route', 'api-factory'], function ($, angul
             scp.wfmParameterNew.Uom = scp.wfmParameterNew.Uom || '';
             scp.wfmParameterNew.IsCumulative = (scp.wfmParameterNew.IsCumulative === true);
             
-            wfmApi.wfmParameter.save(scp.wfmParameterNew, function (data) {
+            WfmApi.wfmParameter.save(scp.wfmParameterNew, function (data) {
                 scp.wfmParameterList.push(data);
                 scp.wfmParameterNew = {};
             });
@@ -93,9 +95,8 @@ define(['jquery', 'angular', 'angular-route', 'api-factory'], function ($, angul
 
         scp.deleteWfmParameter = function (wfmParameterToDelete) {
             if (confirm('{{capitalizeFirst lang.confirmToDelete}} "' + wfmParameterToDelete.Id + '"?')) {
-                wfmApi.wfmParameter.delete({ wfmParameterId: wfmParameterToDelete.Id }, function () {
+                WfmApi.wfmParameter.delete({ wfmParameterId: wfmParameterToDelete.Id }, function () {
                     var idx = scp.wfmParameterList.indexOf(wfmParameterToDelete);
-                    console.log(idx);
                     scp.wfmParameterList.splice(idx, 1);
                 });
             }

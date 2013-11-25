@@ -566,3 +566,25 @@ footer {
         text-decoration: none;
         background-color: #f5f5f5;
     }
+
+.block-table {
+    display: table;
+    border-collapse: collapse !important;
+    width: 100%;
+}
+
+    .block-table > * {
+        display: table-row;
+    }
+
+        .block-table > * > * {
+            display: table-cell;
+            padding: 5px;
+            line-height: 1.428571429;
+            vertical-align: top;
+            border-bottom: 1px solid #dddddd;
+        }
+
+.bld {
+    font-weight: bold;
+}

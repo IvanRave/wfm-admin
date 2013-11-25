@@ -10,13 +10,22 @@ layout: false
                     <th>Id</th>
                     <th>Name</th>
                     <th>Unit</th>
-					<th title="Default color (can be ovveriden at company level)">Color</th>
+                    <th title="Default color (can be ovveriden at company level)">Color</th>
                     <th>IsCumulative</th>
                     <th>Group</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
+				<tr>
+                    <td><input ng-model="wfmParameterNew.Id" ng-pattern="/[a-zA-Z]{3,16}$/" ng-maxlength="16" ng-minlength="3" placeholder="a-z (from 3 to 16 symbols)" required type="text" /></td>
+                    <td><input ng-model="wfmParameterNew.Name" required type="text" /></td>
+                    <td><input size="10" ng-model="wfmParameterNew.Uom" type="text" /></td>
+                    <td><input size="7" ng-model="wfmParameterNew.DefaultColor" type="text" /></td>
+                    <td><input ng-model="wfmParameterNew.IsCumulative" type="checkbox" /></td>
+                    <td><select required ng-model="wfmParameterNew.WfmParamSquadId" ng-options="c for c in wfmParamSquadIdList"></select></td>
+                    <td><button class="btn btn-primary btn-sm" type="button" ng-click="postWfmParameter()" ng-disabled="wfmParameterForm.$invalid">Add parameter</button></td>
+                </tr>
                 <tr ng-repeat="wfmParameter in wfmParameterList | orderBy: 'Id'">
                     <td><span ng-bind="wfmParameter.Id"></span></td>
                     <td>
@@ -27,7 +36,7 @@ layout: false
                         <span ng-hide="wfmParameter.isEditable" ng-bind="wfmParameter.Uom"></span>
                         <input size="10" type="text" ng-model="wfmParameter.Uom" ng-show="wfmParameter.isEditable" />
                     </td>
-					<td>
+                    <td>
                         <span ng-hide="wfmParameter.isEditable" ng-bind="wfmParameter.DefaultColor"></span>
                         <input size="7" type="text" ng-model="wfmParameter.DefaultColor" ng-show="wfmParameter.isEditable" />
                     </td>
@@ -41,27 +50,16 @@ layout: false
                     </td>
                     <td>
                         <div ng-hide="wfmParameter.isEditable">
-                            <button type="button" class="btn btn-sm btn-default" ng-click="turnEdit(wfmParameter, true)">{{capitalizeFirst lang.toEdit}}</button>
-                            <button type="button" ng-hide="wfmParameter.IsSystem" class="btn btn-sm btn-default" ng-click="deleteWfmParameter(wfmParameter)">{{capitalizeFirst lang.toDelete}}</button>
+                            <button class="btn btn-sm btn-default" type="button" ng-click="toggleEdit(wfmParameter, true)">{{capitalizeFirst lang.toEdit}}</button>
+                            <button class="btn btn-sm btn-default" type="button" ng-hide="wfmParameter.IsSystem" ng-click="deleteWfmParameter(wfmParameter)">{{capitalizeFirst lang.toDelete}}</button>
                         </div>
                         <div ng-show="wfmParameter.isEditable">
-                            <button type="button" class="btn btn-sm btn-default" ng-click="putWfmParameter(wfmParameter)">{{capitalizeFirst lang.toSave}}</button>
-                            <button type="button" class="btn btn-sm btn-default" ng-click="turnEdit(wfmParameter, false)">{{capitalizeFirst lang.toCancel}}</button>
+                            <button class="btn btn-sm btn-default" type="button" ng-click="putWfmParameter(wfmParameter)">{{capitalizeFirst lang.toSave}}</button>
+                            <button class="btn btn-sm btn-default" type="button" ng-click="toggleEdit(wfmParameter, false)">{{capitalizeFirst lang.toCancel}}</button>
                         </div>
                     </td>
                 </tr>
             </tbody>
-            <tfoot>
-                <tr>
-                    <td><input ng-model="wfmParameterNew.Id" ng-pattern="/[a-zA-Z]{3,16}$/" ng-maxlength="16" ng-minlength="3" placeholder="a-z (from 3 to 16 symbols)" required type="text" /></td>
-                    <td><input ng-model="wfmParameterNew.Name" required type="text" /></td>
-                    <td><input size="10" ng-model="wfmParameterNew.Uom" type="text" /></td>
-					<td><input size="7" ng-model="wfmParameterNew.DefaultColor" type="text" /></td>
-                    <td><input ng-model="wfmParameterNew.IsCumulative" type="checkbox" /></td>
-                    <td><select required ng-model="wfmParameterNew.WfmParamSquadId" ng-options="c for c in wfmParamSquadIdList"></select></td>
-                    <td><button type="button" class="btn btn-primary btn-sm" ng-click="postWfmParameter()" ng-disabled="wfmParameterForm.$invalid">Add parameter</button></td>
-                </tr>
-            </tfoot>
         </table>
     </form>
 </div>

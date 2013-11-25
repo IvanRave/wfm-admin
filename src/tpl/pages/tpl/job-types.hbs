@@ -3,4 +3,36 @@ layout: false
 ---
 <div class="wfm-content-pad">
     <span ng-hide="isLoadedList">{{lang.loading}}...</span>
+    <div class="block-table" ng-show="isLoadedList">
+        <div class="bld">
+            <div>Name</div>
+            <div>Description</div>
+            <div>Action</div>
+        </div>
+        <form name="addingForm" ng-submit="postJobType()">
+            <div><input ng-model="jobTypeNew.Name" required type="text" /></div>
+            <div><input ng-model="jobTypeNew.Description" type="text" /></div>
+            <div><button class="btn btn-primary btn-sm" type="submit" ng-disabled="addingForm.$invalid">Add job type</button></div>
+        </form>
+        <form ng-repeat="jobType in jobTypeList | orderBy: 'Id'" ng-submit="putJobType(jobType)">
+            <div>
+                <span ng-hide="jobType.isEditable" ng-bind="jobType.Name"></span>
+                <input type="text" ng-model="jobType.Name" ng-show="jobType.isEditable" required />
+            </div>
+            <div>
+                <span ng-hide="jobType.isEditable" ng-bind="jobType.Description"></span>
+                <input type="text" ng-model="jobType.Description" ng-show="jobType.isEditable" />
+            </div>
+            <div>
+                <div ng-hide="jobType.isEditable">
+                    <button class="btn btn-sm btn-default" type="button" ng-click="toggleEdit(jobType, true)">{{capitalizeFirst lang.toEdit}}</button>
+                    <button class="btn btn-sm btn-default" type="button" ng-click="deleteJobType(jobType)">{{capitalizeFirst lang.toDelete}}</button>
+                </div>
+                <div ng-show="jobType.isEditable">
+                    <button class="btn btn-sm btn-default" type="submit">{{capitalizeFirst lang.toSave}}</button>
+                    <button class="btn btn-sm btn-default" type="button" ng-click="toggleEdit(jobType, false)">{{capitalizeFirst lang.toCancel}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>

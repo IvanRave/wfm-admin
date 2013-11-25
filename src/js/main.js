@@ -2,11 +2,11 @@
     'use strict';
 
     require(['jquery', 'angular', 'angular-route', 'jquery.bootstrap',
-        'controllers/auth', 'controllers/wfm-parameter', 'controllers/job-type'], function ($, angular) {
+        'controllers/auth', 'controllers/wfm-parameter', 'controllers/job-type', 'api-factory'], function ($, angular) {
 
             var PRJ_MODULE_NAME = 'ang-cabinet-project';
 
-            angular.module(PRJ_MODULE_NAME, ['ngRoute', 'ang-auth-controllers', 'ang-wfm-parameter-controllers', 'ang-job-type-controllers'])
+            angular.module(PRJ_MODULE_NAME, ['ngRoute', 'ang-auth-controllers', 'ang-wfm-parameter-controllers', 'ang-job-type-controllers', 'api-factory'])
             .config(['$httpProvider', '$interpolateProvider', '$locationProvider', function (angHttpProvider, angInterpolateProvider, angLocationProvider) {
                 angLocationProvider.hashPrefix('!');
 
@@ -70,8 +70,7 @@
                     .when('{{syst.jobTypesUrl}}', { controller: 'JobTypeCtrl', templateUrl: '.{{syst.tplUrl}}{{syst.jobTypesUrl}}{{syst.tplExt}}' })
                     .otherwise({ redirectTo: '/' });
             }])
-            .run(['$rootScope', '$location', function (angRootScope, angLocation) {
-                angRootScope.isLogged = true;
+            .run(['$rootScope', '$location', 'WfmApi', function (angRootScope, angLocation, WfmApi) {
                 angRootScope.getClass = function (path) {
                     if (angLocation.path().substr(0, path.length) === path) {
                         return 'active';
@@ -79,6 +78,18 @@
                         return '';
                     }
                 };
+
+                angRootScope.isLogged = false;
+
+                WfmApi.account.info.get({}, function (accountInfo) {
+                    console.log(accountInfo);
+                    if ($.inArray('admin', accountInfo.Roles) >= 0) {
+                        angRootScope.isLogged = true;
+                    }
+                    else {
+                        angLocation.path('{{syst.logoffUrl}}');
+                    }
+                });
             }]);
 
             // Using jQuery dom ready because it will run this even if DOM load already happened
