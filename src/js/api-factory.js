@@ -5,6 +5,7 @@
         return {
             wfmParameter: angResource('{{conf.requrl}}/wfm-parameters/:wfmParameterId', {}, { put: { method: 'PUT', isArray: false } }),
             wfmParamSquad: angResource('{{conf.requrl}}/wfm-param-squads'),
+            inclusiveWfmParamSquad: angResource('{{conf.requrl}}/wfm-param-squads/inclusive'),
             account:{
                 logoff: angResource('{{conf.requrl}}/account/logoff'),
                 logon: angResource('{{conf.requrl}}/account/logon'),
